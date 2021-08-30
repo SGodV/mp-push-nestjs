@@ -21,7 +21,7 @@ export class AppController {
   @Post('push')
   async push(@Body() body) {
     Logger.verbose(body);
-    const { channelName, text } = body;
+    const { channelName, text, template_id } = body;
     if (!channelName || !text) {
       return {
         error: 1,
@@ -37,7 +37,7 @@ export class AppController {
     }
     channel.subscribers.forEach(user => {
       this.wxService.send({
-        template_id: this.configService.WX_TEMPLATE_ID,
+        template_id,
         touser: user.openid,
         data: {
           first: {
